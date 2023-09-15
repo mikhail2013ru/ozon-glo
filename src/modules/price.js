@@ -1,30 +1,41 @@
 import renderGoods from "./renderGoods"
 import getData from "./getData"
-import { priceFilter } from "./filters"
+import { funcFilter } from "./filters"
+import { debounce } from "./helpers"
 
 const price = () => {
-    const filterPriceMin = document.getElementById('min')
-    const filterPriceMax = document.getElementById('max')
+    const priceMin = document.getElementById('min')
+    const priceMax = document.getElementById('max')
+    const check = document.getElementById('discount-checkbox')
+    const checkMark = document.querySelector('.filter-check_checkmark')
+    const searchInput = document.querySelector('.search-wrapper_input')
     
-    filterPriceMin.addEventListener('input', (e) => {
-        const valueMin = e.target.value
-
-        // console.log(value);
-        
+    const debounceFunc = debounce((min = '', max = '', checkValue = false, searchValue = '') => {
         getData().then((data) => {
-            renderGoods(priceFilter(data, valueMin))
+            renderGoods(funcFilter(data, min, max, checkValue, searchValue))
         })
     })
-
-    filterPriceMax.addEventListener('input', (e) => {
-        const valueMax = e.target.value
-
-        // console.log(value);
-        
-        getData().then((data) => {
-            renderGoods(priceFilter(data, valueMax))
-        })
+    
+    priceMin.addEventListener('input', () => {
+        debounceFunc(priceMin.value, priceMax.value, check.value, searchInput.value)
     })
+
+    priceMax.addEventListener('input', () => {
+        debounceFunc(priceMin.value, priceMax.value, check.checked, searchInput.value)
+    })
+
+    check.addEventListener('input', () => {
+        if (check.checked) {
+            checkMark.classList.add('checked')
+        } else {
+            checkMark.classList.remove('checked')
+        }
+
+        debounceFunc(priceMin.value, priceMax.value, check.checked, searchInput.value)
+    })
+
+    return { debounceFunc, priceMin, priceMax, check }
 }
 
+export const { debounceFunc, priceMin, priceMax, check } = price()
 export default price

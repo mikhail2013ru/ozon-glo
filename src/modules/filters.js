@@ -1,8 +1,4 @@
-export const searchFilter = (goods, value) => {
-    return goods.filter((goodsItem) => {
-        return goodsItem.title.toLowerCase().includes(value.toLowerCase())
-    })
-}
+import { check } from "./price"
 
 export const categoryFilter = (goods, value) => {
     return goods.filter((goodsItem) => {
@@ -10,18 +6,16 @@ export const categoryFilter = (goods, value) => {
     })
 }
 
-export const priceFilter = (goods, valueMin, valueMax) => {
+export const funcFilter = (goods, minValue, maxValue, checkValue, searchValue) => {
     return goods.filter((goodsItem) => {
-        // if (valueMin) {
-        //     return goodsItem.price >= valueMin
-        // }
-
-        // if (valueMax) {
-        //     return goodsItem.price <= valueMax
-        // }
-
-        // if (valueMin && valueMax) {
-        //     return goodsItem.price >= valueMin && goodsItem.price <= valueMax
-        // }
+        const isMin = minValue.trim() ? goodsItem.price >= parseInt(minValue) : true
+        const isMax = maxValue.trim() ? goodsItem.price <= parseInt(maxValue) : true
+        const isSale = checkValue ? goodsItem.sale : true
+        
+        if (check.checked) {
+            return isMin && isMax && isSale && goodsItem.title.toLowerCase().includes(searchValue.toLowerCase())
+        } else {
+            return isMin && isMax && goodsItem.title.toLowerCase().includes(searchValue.toLowerCase())
+        }
     })
 }

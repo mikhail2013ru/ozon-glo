@@ -1,18 +1,11 @@
-import getData from "./getData"
-import renderGoods from "./renderGoods"
-import { searchFilter } from "./filters"
-import { debounce } from "./helpers"
+import { debounceFunc, priceMin, priceMax, check } from './price'
 
 const search = () => {
     const searchInput = document.querySelector('.search-wrapper_input')
-
-    const debounceSearch = debounce((e) => {
-        getData().then((data) => {
-            renderGoods(searchFilter(data, e.target.value))
-        })
-    }, 2000)
     
-    searchInput.addEventListener('input', debounceSearch)
+    searchInput.addEventListener('input', () => {
+        debounceFunc(priceMin.value, priceMax.value, check.value, searchInput.value)
+    })
 }
 
 export default search

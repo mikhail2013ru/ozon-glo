@@ -24,6 +24,7 @@ const catalog = () => {
     catalogModalItems.forEach(item => {
         item.addEventListener('click', () => {
             const text = item.textContent
+            // catalogModal.style.display = ''
 
             getData().then((data) => {
                 renderGoods(categoryFilter(data, text))
