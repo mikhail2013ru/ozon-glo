@@ -7,8 +7,6 @@ const catalog = () => {
     const catalogModal = document.querySelector('.catalog')
     const catalogModalItems = document.querySelectorAll('.catalog li')
 
-    console.log(catalogModalItems);
-
     let isOpen = false
 
     btnCatalog.addEventListener('click', () => {
@@ -24,8 +22,7 @@ const catalog = () => {
     catalogModalItems.forEach(item => {
         item.addEventListener('click', () => {
             const text = item.textContent
-            // catalogModal.style.display = ''
-
+            
             getData().then((data) => {
                 renderGoods(categoryFilter(data, text))
             })
