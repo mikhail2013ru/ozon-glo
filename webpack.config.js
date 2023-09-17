@@ -1,6 +1,6 @@
 const path = require('path')
-// const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCss = require("mini-css-extract-plugin")
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const miniCss = require("mini-css-extract-plugin")
 
 // const mode = process.env.NODE_ENV || 'development' 
 // const devMode = mode === 'development'
@@ -9,27 +9,20 @@ const MiniCss = require("mini-css-extract-plugin")
 
 module.exports = {
     entry: {
-        main: './src/index.js'
+        main: './src/js/index.js'
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
         clean: true,
-        filename: '[name].js',
+        filename: 'js/[name].js',
         // assetModuleFilename: 'assets/[name][ext]'
     },
-    plugins: [
-        // new HtmlWebpackPlugin({
-        //     template: path.resolve(__dirname, 'src', 'index.html'),
-        // }),
-        new MiniCss({
-            filename: 'css/style.css',
-        })
-    ],
+    
     module: {
         rules: [{
                 test: /\.(c|sa|sc)ss$/i,
                 use: [
-                    MiniCss.loader,
+                    miniCss.loader,
                   // Creates `style` nodes from JS strings
                 //devMode ? "style-loader" : MiniCss.loader,                  
                   // Translates CSS into CommonJS
@@ -48,4 +41,13 @@ module.exports = {
             },
         ],
     },
+
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, 'src', 'index.html'),
+        }),
+        new miniCss({
+            filename: 'css/style.css',
+        })
+    ],
 }

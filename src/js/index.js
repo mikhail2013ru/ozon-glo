@@ -5,7 +5,7 @@ import catalog from "./modules/catalog";
 import price from "./modules/price";
 import shopCart from "./modules/shopCart";
 
-import '../scss/style.scss'
+import '../scss/style.scss';
 
 cart()
 load()
