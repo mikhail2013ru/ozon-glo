@@ -34,25 +34,8 @@ module.exports = {
                 test: /\.(c|sa|sc)ss$/i,
                 use: [
                     miniCss.loader,
-                  // Creates `style` nodes from JS strings
-                //devMode ? "style-loader" : MiniCss.loader,                  
-                  // Translates CSS into CommonJS
-                  {
-                    loader: "css-loader",
-                    options: {
-                        modules: true,
-                    }
-                  },
-                  {
-                    loader: 'postcss-loader',
-                    options: {
-                        postcssOptions: {
-                            plugins: [require('postcss-preset-env')],
-                        }
-                    }
-                  },
-                  // Compiles Sass to CSS
-                  "sass-loader",
+                    "css-loader",
+                    "sass-loader"
                 ],
             },
         ],
