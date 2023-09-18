@@ -14,7 +14,14 @@ const cart = () => {
     const openCart = () => {
         const cart = localStorage.getItem('cart') ? 
                 JSON.parse(localStorage.getItem('cart')) : []
-        cartModal.style.display = 'flex'
+
+        if (cart.length === 0) {
+            cartSendBtn.classList.add('btn--disabled')
+        } else {
+            cartSendBtn.classList.remove('btn--disabled')
+        }
+        // cartModal.style.display = 'flex'
+        cartModal.classList.add('cart--active')
 
         renderCart(cart)
         cartTotal.textContent = cart.reduce((sum, goodItem) => {
@@ -23,7 +30,8 @@ const cart = () => {
     }
 
     const closeCart = () => {
-        cartModal.style.display = ''
+        // cartModal.style.display = ''
+        cartModal.classList.remove('cart--active')
     }
 
     cartBtn.addEventListener('click', openCart)
@@ -76,12 +84,16 @@ const cart = () => {
         const cart = localStorage.getItem('cart') ? 
             JSON.parse(localStorage.getItem('cart')) : []
 
-        postData(cart).then(() => {
-            localStorage.removeItem('cart')
-            renderCart([])
-            cartTotal.textContent = 0
-            shopCart(cart)
-        })
+            postData(cart).then(() => {
+                localStorage.removeItem('cart')
+                renderCart([])
+                cartTotal.textContent = 0
+                shopCart(cart)
+    
+                setTimeout(() => {
+                    cartModal.classList.remove('cart--active')
+                }, 900)
+            })
     })
 }
 

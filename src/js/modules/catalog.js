@@ -22,6 +22,13 @@ const catalog = () => {
     catalogModalItems.forEach(item => {
         item.addEventListener('click', () => {
             const text = item.textContent
+            isOpen = !isOpen
+
+            if(isOpen) {
+                catalogModal.style.display = 'block'
+            } else {
+                catalogModal.style.display = ''
+            }
             
             getData().then((data) => {
                 renderGoods(categoryFilter(data, text))
