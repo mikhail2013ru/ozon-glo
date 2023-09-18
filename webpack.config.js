@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const miniCss = require("mini-css-extract-plugin")
 
@@ -15,9 +16,19 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         clean: true,
         filename: 'js/[name].js',
+        sourceMapFilename: "js/[name].js.map",
+        // chunkFilename: '[id].[chunkhash].js'
         // assetModuleFilename: 'assets/[name][ext]'
     },
-    
+    devServer: {
+        static: {
+          directory: path.join(__dirname, 'dist'),
+        },
+        compress: true,
+        port: 9000,
+        hot: true,
+        open: true
+    },
     module: {
         rules: [{
                 test: /\.(c|sa|sc)ss$/i,
@@ -26,14 +37,19 @@ module.exports = {
                   // Creates `style` nodes from JS strings
                 //devMode ? "style-loader" : MiniCss.loader,                  
                   // Translates CSS into CommonJS
-                  "css-loader",
                   {
-                    // loader: 'postcss-loader',
-                    // options: {
-                    //     postcssOptions: {
-                    //         plugins: [require('postcss-preset-env')],
-                    //     }
-                    // }
+                    loader: "css-loader",
+                    options: {
+                        modules: true,
+                    }
+                  },
+                  {
+                    loader: 'postcss-loader',
+                    options: {
+                        postcssOptions: {
+                            plugins: [require('postcss-preset-env')],
+                        }
+                    }
                   },
                   // Compiles Sass to CSS
                   "sass-loader",
@@ -41,13 +57,17 @@ module.exports = {
             },
         ],
     },
-
+    devtool: false,
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'src', 'index.html'),
         }),
         new miniCss({
             filename: 'css/style.css',
+        }),
+        new webpack.SourceMapDevToolPlugin({
+            filename: '[file].map[query]',
+            exclude: ['vendor.js'],
         })
     ],
 }

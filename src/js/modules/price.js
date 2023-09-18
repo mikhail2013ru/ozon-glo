@@ -4,6 +4,7 @@ import { funcFilter } from "./filters"
 import { debounce } from "./helpers"
 
 const price = () => {
+    // console.log('price');
     const priceMin = document.getElementById('min')
     const priceMax = document.getElementById('max')
     const check = document.getElementById('discount-checkbox')
